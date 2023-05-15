@@ -1,0 +1,118 @@
+openapi: 3.0.0
+info:
+  title: Fluxo de Caixa
+  description: Api Responsavel para lançamento do fluxo de caixa
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:8000'
+paths:
+  /debito:
+    summary: Api de debito
+    description: Api para efetuar a manipulação de debitos lançados ou a serem lançados para a data atual
+    post:
+      summary: Cadastrar Debito
+      operationId: cadastrarDebito
+      requestBody:
+        description: Payload de cadastro de Debito
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LancamentoRequest'
+      security:
+        - BearerAuth: [admin]
+      responses:
+        '201':
+          description: Created
+        '403':
+          description: Access token does not have the required scope
+  /credito:
+    summary: Api de credito
+    description: Api para efetuar a manipulação de creditos lançados ou a serem lançados para a data atual
+    post:
+      summary: Cadastrar Credito
+      operationId: cadastrarCredito
+      requestBody:
+        description: Payload de cadastro de credito
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LancamentoRequest'
+      security:
+        - BearerAuth: [admin]
+      responses:
+        '201':
+          description: Created
+        '403':
+          description: Access token does not have the required scope
+components:
+  schemas:
+    LancamentoRequest:
+      type: object
+      required:
+        - valor
+        - tipoLancamento
+      properties:
+        valor:
+          type: number
+          format: double
+        tipoLancamento:
+          type: string
+          enum: [ "DEBITO", "CREDITO" ]
+    AuthenticationRequest:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+    AuthenticationResponse:
+      type: object
+      required:
+        - accessToken
+        - refreshToken
+      properties:
+        accessToken:
+          type: string
+        refreshToken:
+          type: string
+    RegisterRequest:
+      type: object
+      required:
+        - firstname
+        - lastname
+        - email
+        - password
+        - role
+      properties:
+        firstname:
+          type: string
+        lastname:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        role:
+          type: string
+          enum: [ "ADMIN" ]
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
