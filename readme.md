@@ -23,7 +23,8 @@ Obg: É necessario ter o docker e java 11 instalados
 * Navegar até o diretorio raiz e executar a aplicação pelo terminal mvn spring-boot:run
 
 ## Testes
-* Foram utilizados testes unitarios.
+* Foram utilizados testes unitarios. A imagem abaixo mostra a cobertura de codigo dos serviços
+![Relatorio de Testes](img.png)
 
 ## Observalidade
 * Foi adicionado a opção de observalidade, health check e metricas com o prometheus.
